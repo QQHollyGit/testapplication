@@ -1,0 +1,20 @@
+{{ if eq .Values.rosa_env "dev" }}
+{{- range $key, $value := .Values.apigroups }}
+{{- range $namespacePattern := $.Values.namespace_patterns }}
+{{ if eq  $namespacePattern "dev-%s-app" }}
+{{ if eq ( $value.enabled | toString) "true" }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: image-pull
+  namespace: {{ printf $namespacePattern $value.name | quote }}
+  labels:
+    {{- include "common.labels" $ | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ $value.syncwave | default "2" | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

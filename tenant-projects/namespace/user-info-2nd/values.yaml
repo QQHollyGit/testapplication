@@ -1,0 +1,10 @@
+apigroups:
+  - name: user-info-2nd
+    enabled: true
+    local_admin_group:
+      enabled: true
+      users:
+        - zzzzz
+    alert:
+      email:
+        to_address: 10001-yyyyy@example.com
